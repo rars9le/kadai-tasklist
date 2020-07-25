@@ -1,15 +1,13 @@
 class TasksController < ApplicationController
   include SessionsHelper
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:show, :destroy, :edit]
+  before_action :correct_user, only: [:show, :destroy, :edit, :update]
   
   def index
-    @task = current_user.tasks.build  # form_with 用
     @tasks = current_user.tasks.order(id: :desc)
   end
 
   def show
-    @task = Task.find(params[:id])
   end
 
   def new
@@ -29,12 +27,9 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = Task.find(params[:id])
   end
 
   def update
-    @task = Task.find(params[:id])
-
     if @task.update(task_params)
       flash[:success] = 'タスクは正常に更新されました'
       redirect_to @task

@@ -1,13 +1,11 @@
 class TasksController < ApplicationController
   include SessionsHelper
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:destroy]
+  before_action :correct_user, only: [:show, :destroy, :edit]
   
   def index
-    if logged_in?
-      @task = current_user.tasks.build  # form_with 用
-      @tasks = current_user.tasks.order(id: :desc)
-    end
+    @task = current_user.tasks.build  # form_with 用
+    @tasks = current_user.tasks.order(id: :desc)
   end
 
   def show
